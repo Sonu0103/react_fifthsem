@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import FontAwesomeIcon
+import { faUser, faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons"; // Import necessary icons
 
 const Navbar = () => {
+  // get user from local storage
+  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -34,20 +38,60 @@ const Navbar = () => {
               </li>
             </ul>
             <form className="d-flex" role="search">
-              <Link
-                to={"/register"}
-                className="btn btn-outline-danger me-2"
-                type="submit"
-              >
-                Register
-              </Link>
-              <Link
-                to={"/login"}
-                className="btn btn-outline-success"
-                type="submit"
-              >
-                Login
-              </Link>
+              {user ? (
+                <>
+                  <div className="dropdown">
+                    <button
+                      className="btn btn-secondary dropdown-toggle"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      Welcome, {user.firstName}
+                    </button>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <Link className="dropdown-item" to="#">
+                          <FontAwesomeIcon icon={faUser} className="me-2" />
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="#">
+                          <FontAwesomeIcon icon={faCog} className="me-2" />
+                          Setting
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="#">
+                          <FontAwesomeIcon
+                            icon={faSignOutAlt}
+                            className="me-2"
+                          />
+                          Logout
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to={"/register"}
+                    className="btn btn-outline-danger me-2"
+                    type="submit"
+                  >
+                    Register
+                  </Link>
+                  <Link
+                    to={"/login"}
+                    className="btn btn-outline-success"
+                    type="submit"
+                  >
+                    Login
+                  </Link>
+                </>
+              )}
             </form>
           </div>
         </div>

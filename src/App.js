@@ -8,6 +8,7 @@ import Loginpage from "./pages/login/Loginpage";
 //  Toast config
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/register" element={<Registerpage />} />
+        {/* Admin Dashboard */}
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
         {/* Login Route */}
         <Route path="/login" element={<Loginpage />} />
