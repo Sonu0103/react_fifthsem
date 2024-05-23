@@ -5,8 +5,30 @@ const AdminDashboard = () => {
   const [productPrice, setProductPrice] = useState("");
   const [productCategory, setProductCategory] = useState("");
   const [productDescription, setProductDescription] = useState("");
-  const [productImage, setProductImage] = useState("");
-  const [peviewImage, setPreviwImage] = useState("");
+
+  // image state
+  const [productImage, setProductImage] = useState(null);
+  const [previewImage, setPreviwImage] = useState(null);
+
+  // function to upload and preview image
+  const handleImageUpload = (event) => {
+    // 0-file, 1-name, 2-size
+    const file = event.target.files[0];
+    setProductImage(file);
+    setPreviwImage(URL.createObjectURL(file));
+  };
+
+  // handle submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(
+      productName,
+      productPrice,
+      productCategory,
+      productDescription,
+      productImage
+    );
+  };
 
   return (
     <>
@@ -81,7 +103,21 @@ const AdminDashboard = () => {
                     ></textarea>
 
                     <label className="mt-2">Product Image</label>
-                    <input type="file" className="form-control"></input>
+                    <input
+                      onChange={handleImageUpload}
+                      type="file"
+                      className="form-control"
+                    ></input>
+                    {/* Preview image */}
+                    {previewImage && (
+                      <div className="">
+                        <img
+                          src={previewImage}
+                          alt="previewImage"
+                          className="img-fluid rounded object-fit-cover mt-3"
+                        />
+                      </div>
+                    )}
                   </form>
                 </div>
                 <div class="modal-footer">
@@ -92,8 +128,12 @@ const AdminDashboard = () => {
                   >
                     Close
                   </button>
-                  <button type="button" class="btn btn-primary">
-                    Add Product
+                  <button
+                    onClick={handleSubmit}
+                    type="button"
+                    class="btn btn-primary"
+                  >
+                    Save Changes
                   </button>
                 </div>
               </div>
