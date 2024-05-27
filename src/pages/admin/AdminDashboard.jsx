@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { createProductApi } from "../../apis/Api";
+import { toast } from "react-toastify";
 
 const AdminDashboard = () => {
   const [productName, setProductName] = useState("");
@@ -28,6 +30,36 @@ const AdminDashboard = () => {
       productDescription,
       productImage
     );
+
+    // make a logical form data
+    const formData = new FormData();
+    formData.append("productName", productName);
+    formData.append("productPrice", productPrice);
+    formData.append("productCategory", productCategory);
+    formData.append("productDescription", productDescription);
+    formData.append("productImage", productImage);
+
+    // make a api call/request
+    createProductApi(formData)
+      .then((res) => {
+        if (res.status === 201) {
+          toast.success(res.data.message);
+        } else {
+          toast.error("Something went wrong in frontend");
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.status === 400) {
+            toast.error(error.response.data.message);
+          }
+          // space for 401 error
+        } else if (error.response.status === 500) {
+          toast.error("Internal server error");
+        } else {
+          toast.error("No response");
+        }
+      });
   };
 
   return (
@@ -133,7 +165,7 @@ const AdminDashboard = () => {
                     type="button"
                     class="btn btn-primary"
                   >
-                    Save Changes
+                    Add product
                   </button>
                 </div>
               </div>
