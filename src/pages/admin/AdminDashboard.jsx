@@ -1,8 +1,24 @@
-import React, { useState } from "react";
-import { createProductApi } from "../../apis/Api";
+import React, { useEffect, useState } from "react";
+import { createProductApi, getAllProducts } from "../../apis/Api";
 import { toast } from "react-toastify";
 
 const AdminDashboard = () => {
+  // logic for get products
+  const [products, setProducts] = useState([]);
+  // Hit API (get all products) Auto -> useEffect (list of products)
+  useEffect(() => {
+    getAllProducts()
+      .then((res) => {
+        // success, message , list of products(products)
+        setProducts(res.data.products);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  console.log(products);
+  // Make a state to save (Array)
+  // Table row (pn,pd,pp)
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productCategory, setProductCategory] = useState("");
@@ -184,21 +200,28 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <img src="http://picsum.photos/50" alt="" />
-              </td>
-              <td>Flower</td>
-              <td>122</td>
-              <td>Flower for you</td>
-              <td>Flower</td>
-              <td>
-                <div className="btn-group" role="group">
-                  <button className="btn btn-success ">Edit</button>
-                  <button className="btn btn-danger ">Delete</button>
-                </div>
-              </td>
-            </tr>
+            {products.map((singleproduct) => (
+              <tr>
+                <td>
+                  <img
+                    height="50"
+                    width="50"
+                    src={`http://localhost:5000/products/${singleproduct.productImage}`}
+                    alt=""
+                  />
+                </td>
+                <td>{singleproduct.productName}</td>
+                <td>NPR.{singleproduct.productPrice}</td>
+                <td>{singleproduct.productCategory}</td>
+                <td>{singleproduct.productDescription}</td>
+                <td>
+                  <div className="btn-group" role="group">
+                    <button className="btn btn-success ">Edit</button>
+                    <button className="btn btn-danger ">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

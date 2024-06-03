@@ -20,3 +20,6 @@ export const registerUserApi = (data) => Api.post("/api/user/create", data);
 export const loginUserApi = (data) => Api.post("/api/user/login", data);
 
 export const createProductApi = (data) => Api.post("/api/product/create", data);
+
+// fetch al products
+export const getAllProducts = () => Api.get("/api/product/get_all_products");
