@@ -23,3 +23,11 @@ export const createProductApi = (data) => Api.post("/api/product/create", data);
 
 // fetch al products
 export const getAllProducts = () => Api.get("/api/product/get_all_products");
+
+// fetch single product
+export const getProduct = (id) =>
+  Api.get(`/api/product/get_single_product/${id}`);
+
+// delete product
+export const deleteProduct = (id) =>
+  Api.delete(`/api/product/delete_product/${id}`);

@@ -1,8 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getProduct } from "../../apis/Api";
 
 const AdminUpdate = () => {
   // get id from url
+  const { id } = useParams();
+
   // get product information (Backend)
+  useEffect(() => {
+    getProduct(id)
+      .then((res) => {
+        console.log(res.data);
+        setProductName(res.data.productName);
+        setProductPrice(res.data.productPrice);
+        setProductCategory(res.data.productCategory);
+        setProductDescription(res.data.productDescription);
+        setOldImage(res.data.productImage);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   // fill all the info in each fields
 
   // make a use state
@@ -27,13 +45,15 @@ const AdminUpdate = () => {
     <>
       <div className="container mt-3">
         <h2>
-          Update product for <span className="text-danger">'Flower'</span>
+          Update product for{" "}
+          <span className="text-danger">'{productName}'</span>
         </h2>
 
         <div className="d-flex gap-3">
           <form action="">
             <label htmlFor="">Product Name</label>
             <input
+              value={productName}
               onChange={(e) => setProductName(e.target.value)}
               className="form-control"
               type="text"
@@ -44,6 +64,7 @@ const AdminUpdate = () => {
               Product Price
             </label>
             <input
+              value={productPrice}
               onChange={(e) => setProductPrice(e.target.value)}
               className="form-control"
               type="number"
@@ -52,6 +73,7 @@ const AdminUpdate = () => {
 
             <label className="mt-2">Choose category</label>
             <select
+              value={productCategory}
               onChange={(e) => setProductCategory(e.target.value)}
               className="form-control"
             >
@@ -63,6 +85,7 @@ const AdminUpdate = () => {
 
             <label className="mt-2">Enter description</label>
             <textarea
+              value={productDescription}
               onChange={(e) => setProductDescription(e.target.value)}
               className="form-control"
             ></textarea>
