@@ -6,6 +6,12 @@ import { faUser, faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 const Navbar = () => {
   // get user from local storage
   const user = JSON.parse(localStorage.getItem("user"));
+
+  // logout function
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = "/login";
+  };
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -63,13 +69,17 @@ const Navbar = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="#">
+                        <button
+                          onClick={handleLogout}
+                          className="dropdown-item"
+                          to="#"
+                        >
                           <FontAwesomeIcon
                             icon={faSignOutAlt}
                             className="me-2"
                           />
                           Logout
-                        </Link>
+                        </button>
                       </li>
                     </ul>
                   </div>

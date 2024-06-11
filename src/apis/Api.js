@@ -9,6 +9,12 @@ const Api = axios.create({
   },
 });
 
+//  creating authorization config
+const config = {
+  headers: {
+    authorization: `Bearer ${localStorage.getItem("token ")}`,
+  },
+};
 export const testApi = () => Api.get("/test");
 
 // creating register api
@@ -22,11 +28,12 @@ export const loginUserApi = (data) => Api.post("/api/user/login", data);
 export const createProductApi = (data) => Api.post("/api/product/create", data);
 
 // fetch al products
-export const getAllProducts = () => Api.get("/api/product/get_all_products");
+export const getAllProducts = () =>
+  Api.get("/api/product/get_all_products", config);
 
 // fetch single product
 export const getProduct = (id) =>
-  Api.get(`/api/product/get_single_product/${id}`);
+  Api.get(`/api/product/get_single_product/${id}`, config);
 
 // delete product
 export const deleteProduct = (id) =>

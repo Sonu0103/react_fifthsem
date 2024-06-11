@@ -10,6 +10,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUpdate from "./pages/admin/AdminUpdate";
+import AdminRoutes from "./protected_routes/AdminRoutes";
+import UserRoutes from "./protected_routes/UserRoutes";
+import Profile from "./pages/profile/Profile";
 
 function App() {
   return (
@@ -19,12 +22,18 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/register" element={<Registerpage />} />
-        {/* Admin Dashboard */}
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/update/:id" element={<AdminUpdate />} />
-
-        {/* Login Route */}
         <Route path="/login" element={<Loginpage />} />
+
+        {/* Profile  */}
+        <Route element={<UserRoutes />}>
+          <Route path="/profile" element={<Profile />} />
+        </Route>
+        {/* Admin Dashboard */}
+        <Route element={<AdminRoutes />}>
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/update/:id" element={<AdminUpdate />} />
+        </Route>
+        {/* Login Route */}
       </Routes>
     </Router>
   );
