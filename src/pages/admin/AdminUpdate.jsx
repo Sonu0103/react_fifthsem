@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getProduct } from "../../apis/Api";
+import { getProduct, updateProduct } from "../../apis/Api";
+import { toast } from "react-toastify";
 
 const AdminUpdate = () => {
   // get id from url
   const { id } = useParams();
-
+  console.log(id);
   // get product information (Backend)
   useEffect(() => {
     getProduct(id)
       .then((res) => {
         console.log(res.data);
-        setProductName(res.data.productName);
-        setProductPrice(res.data.productPrice);
-        setProductCategory(res.data.productCategory);
-        setProductDescription(res.data.productDescription);
-        setOldImage(res.data.productImage);
+        setProductName(res.data.product.productName);
+        setProductPrice(res.data.product.productPrice);
+        setProductCategory(res.data.product.productCategory);
+        setProductDescription(res.data.product.productDescription);
+        setOldImage(res.data.product.productImage);
       })
       .catch((error) => {
         console.log(error);
@@ -39,6 +40,35 @@ const AdminUpdate = () => {
     const file = event.target.files[0];
     setProductNewImage(file); // for backend
     setPreviewNewImage(URL.createObjectURL(file));
+  };
+  // update product function
+  const handleUpdate = (e) => {
+    e.preventDefault();
+
+    // make a form data
+    const formData = new FormData();
+    formData.append("productName", productName);
+    formData.append("productPrice", productPrice);
+    formData.append("productCategory", productCategory);
+    formData.append("productDescription", productDescription);
+
+    if (productNewImage) {
+      formData.append("productImage", productNewImage);
+    }
+    // api call
+    updateProduct(id, formData)
+      .then((res) => {
+        if (res.status === 201) {
+          toast.success(res.data.message);
+        }
+      })
+      .catch((error) => {
+        if (error.response.status === 500) {
+          toast.error(error.response.data.message);
+        } else if (error.response.status === 500) {
+          toast.warning(error.response.data.message);
+        }
+      });
   };
 
   return (
@@ -97,7 +127,10 @@ const AdminUpdate = () => {
               className="form-control"
             />
 
-            <button className="btn btn-danger w-100 mt-2">
+            <button
+              onClick={handleUpdate}
+              className="btn btn-danger w-100 mt-2"
+            >
               Update Product
             </button>
           </form>
@@ -107,19 +140,17 @@ const AdminUpdate = () => {
               className="img-fluid object-fit-cover rounded-4"
               height={"400"}
               width={"400"}
-              src="http://source.unsplash.com/random/400x400"
-              alt="preview"
-            ></img>
+              src={`http://localhost:5000/product/${oldImage}`}
+              alt="old img"
+            />
             {previewNewImage && (
               <div>
                 <h6> New Image Preview</h6>
                 <img
                   className="img-fluid object-fit-cover rounded-4"
-                  height={"400"}
-                  width={"400"}
                   src={previewNewImage}
-                  alt="preview"
-                ></img>
+                  alt="old img"
+                />
               </div>
             )}
           </div>

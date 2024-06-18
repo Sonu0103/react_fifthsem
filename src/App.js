@@ -29,10 +29,9 @@ function App() {
           <Route path="/profile" element={<Profile />} />
         </Route>
         {/* Admin Dashboard */}
-        <Route element={<AdminRoutes />}>
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/update/:id" element={<AdminUpdate />} />
-        </Route>
+        {/* <Route element={<AdminRoutes />}></Route> */}
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/update/:id" element={<AdminUpdate />} />
         {/* Login Route */}
       </Routes>
     </Router>

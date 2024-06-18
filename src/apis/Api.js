@@ -38,3 +38,7 @@ export const getProduct = (id) =>
 // delete product
 export const deleteProduct = (id) =>
   Api.delete(`/api/product/delete_product/${id}`);
+
+// update
+export const updateProduct = (id, data) =>
+  Api.put(`/api/product/update_product/${id}`, data);
