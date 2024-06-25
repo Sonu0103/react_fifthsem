@@ -12,6 +12,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [phone, setPhone] = useState("");
 
   // State for Error
   const [firstNameError, setFirstNameError] = useState("");
@@ -19,7 +20,7 @@ const Register = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
+  const [phoneError, setPhoneError] = useState("");
   // Make a function to save the state
   const handleFirstname = (e) => {
     setFirstName(e.target.value);
@@ -38,6 +39,9 @@ const Register = () => {
 
   const handleConfirmPassword = (e) => {
     setConfirmPassword(e.target.value);
+  };
+  const handlePhone = (e) => {
+    setPhone(e.target.value);
   };
 
   // Validation
@@ -66,6 +70,10 @@ const Register = () => {
       setConfirmPassword("Confirm password is Required");
       isValid = false;
     }
+    if (phone.trim() === "") {
+      setPhoneError("Phone Number is required");
+      isValid = false;
+    }
 
     if (password.trim() !== confirmPassword.trim()) {
       setConfirmPassword("Confirm password is Required");
@@ -90,6 +98,7 @@ const Register = () => {
       lastName: lastName,
       email: email,
       password: password,
+      phone: phone,
     };
     registerUserApi(data).then((res) => {
       // success : true/false , message
@@ -132,6 +141,14 @@ const Register = () => {
             type="email"
             className="form-control"
             placeholder="Enter your email address"
+          />
+          {emailError && <p className="text-danger">{emailError}</p>}
+          <label className="mt-2">Phone Number</label>
+          <input
+            onChange={handlePhone}
+            type="Number"
+            className="form-control"
+            placeholder="Enter your Phone Number"
           />
           {emailError && <p className="text-danger">{emailError}</p>}
 
